@@ -14,14 +14,18 @@ const List<HomeItem> homeItemsList = [
     title: "Subjetcs",
     icon: CustomIcons.subjects,
     color: Color(0xFFD8EBFD),
+    route: RouteConstants.classRoom,
   ),
   HomeItem(
-      title: "Class Rooms",
-      icon: CustomIcons.classRooms,
-      color: Color(0xFFFFE0DD)),
+    title: "Class Rooms",
+    icon: CustomIcons.classRooms,
+    color: Color(0xFFFFE0DD),
+    route: RouteConstants.classRoom,
+  ),
   HomeItem(
     title: "Registration",
     icon: CustomIcons.registration,
     color: Color(0xFFFFF3D9),
+    route: RouteConstants.registration,
   ),
 ];

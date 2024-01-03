@@ -13,3 +13,9 @@ SizedBox smHorizontalSpace = SizedBox(width: 4.w);
 
 SizedBox mdVerticalSpace = SizedBox(height: 8.h);
 SizedBox mdHorizontalSpace = SizedBox(width: 8.w);
+
+SizedBox lgVerticalSpace = SizedBox(height: 16.h);
+SizedBox lgHorizontalSpace = SizedBox(width: 16.w);
+
+SizedBox xlVerticalSpace = SizedBox(height: 32.h);
+SizedBox xlHorizontalSpace = SizedBox(width: 32.w);
