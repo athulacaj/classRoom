@@ -1,14 +1,22 @@
 import 'package:flutter/foundation.dart';
 import 'package:test_app/features/students/model/student_model.dart';
+import 'package:test_app/features/students/students_repository.dart';
+import 'package:test_app/utils/common/functions/debug_print.dart';
 
 class StudentController extends ChangeNotifier {
-  StudentController() {
+  StudentController({required this.studentRepostitory}) {
     fetchStudents();
   }
+  final StudentRepostitory studentRepostitory;
 
-  final List<StudentModel> students = [
-    StudentModel(name: 'John Doe', email: 'john@gmail.com', age: 20),
-    StudentModel(name: 'Jane Doe', email: 'janeDoe@gmail.com', age: 21),
-  ];
-  void fetchStudents() {}
+  final List<StudentModel> students = [];
+  Future<void> fetchStudents() async {
+    try {
+      List<StudentModel> data = await studentRepostitory.getStudents();
+      students.addAll(data);
+      notifyListeners();
+    } catch (e) {
+      printIfDebug(e);
+    }
+  }
 }
