@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
+import 'package:test_app/features/class_rooms/class_room_controller.dart';
+import 'package:test_app/features/class_rooms/class_room_repository.dart';
 import 'package:test_app/features/class_rooms/class_room_screen.dart';
 import 'package:test_app/features/home/home_controller.dart';
 import 'package:test_app/features/home/home_screen.dart';
+import 'package:test_app/features/registration/registartion_screen.dart';
+import 'package:test_app/features/registration/registration_controller.dart';
+import 'package:test_app/features/registration/registration_repository.dart';
 import 'package:test_app/features/students/students_controller.dart';
 import 'package:test_app/features/students/students_repository.dart';
 import 'package:test_app/features/students/students_screen.dart';
-import 'package:test_app/features/subjects/subject_screen_controller.dart';
+import 'package:test_app/features/subjects/subject_controller.dart';
+import 'package:test_app/features/subjects/subject_repository.dart';
 import 'package:test_app/features/subjects/subjects_Screen.dart';
 import 'package:test_app/utils/common/api/api_helper.dart';
 import 'package:test_app/utils/common/api/api_operations.dart';
@@ -41,21 +47,38 @@ final GoRouter goRoutes = GoRouter(
     GoRoute(
       path: RouteConstants.subjects,
       builder: (BuildContext context, GoRouterState state) {
-        return ChangeNotifierProvider<SubJectScreenController>(
-            create: (context) => SubJectScreenController(),
+        return ChangeNotifierProvider<SubJectController>(
+            create: (context) => SubJectController(
+                  subjectRepostitory: SubjectRepostitory(
+                    apiHelper: apiHelper,
+                  ),
+                ),
             child: const SubjectScreen());
       },
     ),
     GoRoute(
       path: RouteConstants.classRoom,
       builder: (BuildContext context, GoRouterState state) {
-        return const ClassRoomScreen();
+        return ChangeNotifierProvider<ClassRoomController>(
+            create: (context) => ClassRoomController(
+                  classRoomRepostitory: ClassRoomRepostitory(
+                    apiHelper: apiHelper,
+                  ),
+                ),
+            child: const ClassRoomScreen());
       },
     ),
     GoRoute(
       path: RouteConstants.registration,
       builder: (BuildContext context, GoRouterState state) {
-        return const ClassRoomScreen();
+        return ChangeNotifierProvider(
+          create: (context) => RegistrationController(
+            registrationRepostitory: RegistrationRepostitory(
+              apiHelper: apiHelper,
+            ),
+          ),
+          child: const RegistrationScreen(),
+        );
       },
     ),
   ],

@@ -70,6 +70,25 @@ class ApiOperation {
     return postResponse;
   }
 
+  Future<Response?> deleteOperation(
+    String baseUrl, {
+    Map<String, dynamic>? parameter,
+  }) async {
+    Response? getResponse;
+
+    try {
+      getResponse = await NetworkClient.dioInstance.delete(
+        baseUrl,
+        options: await getDioOptions(),
+        queryParameters: parameter,
+      );
+    } catch (e) {
+      getResponse = await _getErrorResponse(e, msg: 'delete operation failed');
+    }
+
+    return getResponse;
+  }
+
   Future<Response?> _getErrorResponse(Object e, {required String msg}) async {
     Response? patchResponse;
     if (e is DioException) {

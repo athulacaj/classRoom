@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:provider/provider.dart';
+import 'package:test_app/features/subjects/subject_controller.dart';
 import 'package:test_app/utils/common/widgets/app_bar.dart';
 import 'package:test_app/utils/common/widgets/three_widget_tile.dart';
 import 'package:test_app/utils/constants/spacing.dart';
@@ -15,30 +17,46 @@ class SubjectScreen extends StatefulWidget {
 class _SubjectScreenState extends State<SubjectScreen> {
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: commonAppBar(context),
-      body: Padding(
-        padding: EdgeInsets.all(UiConstants.defaultPadding.w),
-        child: Column(
-          children: [
-            const Center(
-              child: Text(
-                'Students ',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: Colors.black,
-                  fontSize: 22,
-                  fontWeight: FontWeight.w700,
+    return Consumer<SubJectController>(
+        builder: (context, SubJectController subJectController, _) {
+      return Scaffold(
+        appBar: commonAppBar(context),
+        body: Padding(
+          padding: EdgeInsets.all(UiConstants.defaultPadding.w),
+          child: Column(
+            children: [
+              const Center(
+                child: Text(
+                  'Students ',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 22,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
-            ),
-            xlVerticalSpace,
-            const ThreeWidgetTile(
-              title: "Lourie Thomas",
-            ),
-          ],
+              xlVerticalSpace,
+              Expanded(
+                child: ListView.separated(
+                  itemBuilder: (context, i) {
+                    return ThreeWidgetTile(
+                      title: subJectController.subjects[i].name,
+                      subtitle: subJectController.subjects[i].teacher,
+                      trailing:
+                          Text("age: ${subJectController.subjects[i].credits}"),
+                    );
+                  },
+                  separatorBuilder: (context, i) {
+                    return lgVerticalSpace;
+                  },
+                  itemCount: subJectController.subjects.length,
+                ),
+              )
+            ],
+          ),
         ),
-      ),
-    );
+      );
+    });
   }
 }
