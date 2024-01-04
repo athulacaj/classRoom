@@ -4,6 +4,8 @@ import 'package:provider/provider.dart';
 import 'package:test_app/features/class_rooms/class_room_controller.dart';
 import 'package:test_app/features/class_rooms/class_room_repository.dart';
 import 'package:test_app/features/class_rooms/class_room_screen.dart';
+import 'package:test_app/features/class_rooms/screens/class_room_detailed_controller.dart';
+import 'package:test_app/features/class_rooms/screens/classroom_detailed_screen.dart';
 import 'package:test_app/features/home/home_controller.dart';
 import 'package:test_app/features/home/home_screen.dart';
 import 'package:test_app/features/registration/registartion_screen.dart';
@@ -47,13 +49,7 @@ final GoRouter goRoutes = GoRouter(
     GoRoute(
       path: RouteConstants.subjects,
       builder: (BuildContext context, GoRouterState state) {
-        return ChangeNotifierProvider<SubJectController>(
-            create: (context) => SubJectController(
-                  subjectRepostitory: SubjectRepostitory(
-                    apiHelper: apiHelper,
-                  ),
-                ),
-            child: const SubjectScreen());
+        return goSubjectPage();
       },
     ),
     GoRoute(
@@ -66,6 +62,23 @@ final GoRouter goRoutes = GoRouter(
                   ),
                 ),
             child: const ClassRoomScreen());
+      },
+    ),
+    GoRoute(
+      path: RouteConstants.classRoomWithId,
+      builder: (BuildContext context, GoRouterState state) {
+        return ChangeNotifierProvider<ClassRoomDetailedController>(
+          create: (context) => ClassRoomDetailedController(
+            id: int.parse(state.pathParameters['id']!),
+            classRoomRepostitory: ClassRoomRepostitory(
+              apiHelper: apiHelper,
+            ),
+            subjectRepostitory: SubjectRepostitory(
+              apiHelper: apiHelper,
+            ),
+          ),
+          child: const ClassRoomDetailedScreen(),
+        );
       },
     ),
     GoRoute(
@@ -83,3 +96,16 @@ final GoRouter goRoutes = GoRouter(
     ),
   ],
 );
+
+Widget goSubjectPage({Function? onClick}) {
+  return ChangeNotifierProvider<SubJectController>(
+    create: (context) => SubJectController(
+      subjectRepostitory: SubjectRepostitory(
+        apiHelper: apiHelper,
+      ),
+    ),
+    child: SubjectScreen(
+      onClick: onClick,
+    ),
+  );
+}

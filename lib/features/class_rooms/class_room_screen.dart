@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 import 'package:test_app/features/class_rooms/class_room_controller.dart';
 import 'package:test_app/features/class_rooms/screens/classroom_detailed_screen.dart';
 import 'package:test_app/features/students/students_screen.dart';
 import 'package:test_app/utils/common/widgets/app_bar.dart';
 import 'package:test_app/utils/common/widgets/three_widget_tile.dart';
+import 'package:test_app/utils/constants/route_constants.dart';
 import 'package:test_app/utils/constants/spacing.dart';
 import 'package:test_app/utils/constants/ui_constants.dart';
 
@@ -57,16 +59,10 @@ class _ClassRoomScreenState extends State<ClassRoomScreen> {
                             const Text("Seats"),
                           ],
                         ),
-                        onTap: () => {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => ClassRoomDetailedScreen(
-                                classRoomModel:
-                                    classRoomController.classRooms[i],
-                              ),
-                            ),
-                          )
+                        onTap: () {
+                          context.push(
+                            "${RouteConstants.classRoom}/${classRoomController.classRooms[i].id}",
+                          );
                         },
                       );
                     },

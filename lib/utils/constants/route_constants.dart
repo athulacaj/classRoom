@@ -4,4 +4,5 @@ class RouteConstants {
   static const String subjects = '/subjects';
   static const String classRoom = '/classroom';
   static const String registration = '/registration';
+  static const String classRoomWithId = '/classroom/:id';
 }

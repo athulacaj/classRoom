@@ -14,4 +14,23 @@ class ClassRoomRepostitory {
       throw Exception("Error");
     }
   }
+
+  Future<ClassRoomModel> getClassroomById(int id) async {
+    final response = await apiHelper.getClassRoomById(id);
+    if (response != null && response.statusCode == 200) {
+      final ClassRoomModel classRoom = ClassRoomModel.fromJson(response.data);
+      return classRoom;
+    } else {
+      throw Exception("Error");
+    }
+  }
+
+  Future<bool> updateSubject(ClassRoomModel classRoomModel) async {
+    final response = await apiHelper.updateClassRoom(classRoomModel);
+    if (response != null && response.statusCode == 200) {
+      return true;
+    } else {
+      throw Exception("Error");
+    }
+  }
 }

@@ -9,7 +9,8 @@ import 'package:test_app/utils/constants/spacing.dart';
 import 'package:test_app/utils/constants/ui_constants.dart';
 
 class SubjectScreen extends StatefulWidget {
-  const SubjectScreen({super.key});
+  const SubjectScreen({super.key, this.onClick});
+  final Function? onClick;
 
   @override
   State<SubjectScreen> createState() => _SubjectScreenState();
@@ -45,6 +46,12 @@ class _SubjectScreenState extends State<SubjectScreen> {
                   child: ListView.separated(
                     itemBuilder: (context, i) {
                       return ThreeWidgetTile(
+                        onTap: () {
+                          if (widget.onClick != null) {
+                            print(":${subJectController.subjects[i].name}");
+                            widget.onClick!(subJectController.subjects[i]);
+                          }
+                        },
                         title: subJectController.subjects[i].name,
                         subtitle: subJectController.subjects[i].teacher,
                         trailing: Column(

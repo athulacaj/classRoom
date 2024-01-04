@@ -14,4 +14,14 @@ class SubjectRepostitory {
       throw Exception("Error");
     }
   }
+
+  Future<SubjectModel> getSubjectById(int id) async {
+    final response = await apiHelper.getSubjectById(id);
+    if (response != null && response.statusCode == 200) {
+      final SubjectModel subject = SubjectModel.fromJson(response.data);
+      return subject;
+    } else {
+      throw Exception("Error");
+    }
+  }
 }

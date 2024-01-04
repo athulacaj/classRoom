@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:test_app/config.dart';
+import 'package:test_app/features/class_rooms/model/class_room_model.dart';
 import 'package:test_app/features/registration/model/registration_model.dart';
 import 'package:test_app/utils/common/api/api_operations.dart';
 import 'package:test_app/utils/constants/api_endpoints.dart';
@@ -24,9 +25,39 @@ class ApiHelper {
     return response;
   }
 
+  Future<Response?> getSubjectById(int id) async {
+    final response = await apiOperation.getOperation(
+        "${Config.baseUrl}${ApiEndPoints.subjects}/$id",
+        parameter: {
+          'api_key': Config.apiKey,
+        });
+    return response;
+  }
+
   Future<Response?> getClassrooms() async {
     final response = await apiOperation.getOperation(
         "${Config.baseUrl}${ApiEndPoints.classrooms}",
+        parameter: {
+          'api_key': Config.apiKey,
+        });
+    return response;
+  }
+
+  Future<Response?> getClassRoomById(int id) async {
+    final response = await apiOperation.getOperation(
+        "${Config.baseUrl}${ApiEndPoints.classrooms}/$id",
+        parameter: {
+          'api_key': Config.apiKey,
+        });
+    return response;
+  }
+
+  Future<Response?> updateClassRoom(ClassRoomModel classRoomModel) async {
+    final response = await apiOperation.patchUrlEncodedRequest(
+        "${Config.baseUrl}${ApiEndPoints.classrooms}/${classRoomModel.id}",
+        patchBody: {
+          "subject": classRoomModel.subject,
+        },
         parameter: {
           'api_key': Config.apiKey,
         });

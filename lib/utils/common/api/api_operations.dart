@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart';
 
 class ApiOperation {
@@ -87,6 +89,24 @@ class ApiOperation {
     }
 
     return getResponse;
+  }
+
+  Future<Response?> patchUrlEncodedRequest(String path,
+      {required Map patchBody, Map<String, dynamic>? parameter}) async {
+    var headers = {'Content-Type': 'application/x-www-form-urlencoded'};
+    var dio = Dio();
+    var data = {'subject': patchBody['subject']};
+    var response = await dio.request(
+      path,
+      options: Options(
+        method: 'PATCH',
+        headers: headers,
+      ),
+      queryParameters: parameter ?? {},
+      data: data,
+    );
+
+    return response;
   }
 
   Future<Response?> _getErrorResponse(Object e, {required String msg}) async {
