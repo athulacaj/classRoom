@@ -8,12 +8,14 @@ class StudentController extends ChangeNotifier {
     fetchStudents();
   }
   final StudentRepostitory studentRepostitory;
+  bool isLoading = true;
 
   final List<StudentModel> students = [];
   Future<void> fetchStudents() async {
     try {
       List<StudentModel> data = await studentRepostitory.getStudents();
       students.addAll(data);
+      isLoading = false;
       notifyListeners();
     } catch (e) {
       printIfDebug(e);

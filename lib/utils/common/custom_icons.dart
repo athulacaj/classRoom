@@ -11,4 +11,7 @@ class CustomIcons {
   static const String classRooms =
       '$_iconBasePath/fluent_conference-room-24-regular.svg';
   static const String registration = '$_iconBasePath/Group.svg';
+  static const String sittinRightSvg = '$_iconBasePath/sitting_right_svg.svg';
+  static const String sitingRight = '$_iconBasePath/sitting_right.png';
+  static const String sittingLeft = '$_iconBasePath/sitting_left.png';
 }

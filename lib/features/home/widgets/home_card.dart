@@ -49,12 +49,15 @@ class HomeCard extends StatelessWidget {
               ),
               mdVerticalSpace,
             ],
-            Text(
-              item.title,
-              style: const TextStyle(
-                color: Color.fromARGB(255, 3, 3, 3),
-                fontSize: 17,
-                fontWeight: FontWeight.w600,
+            Hero(
+              tag: item.title.toLowerCase(),
+              child: Text(
+                item.title,
+                style: const TextStyle(
+                  color: Color.fromARGB(255, 3, 3, 3),
+                  fontSize: 17,
+                  fontWeight: FontWeight.w600,
+                ),
               ),
             ),
           ],

@@ -14,7 +14,7 @@ const List<HomeItem> homeItemsList = [
     title: "Subjetcs",
     icon: CustomIcons.subjects,
     color: Color(0xFFD8EBFD),
-    route: RouteConstants.classRoom,
+    route: RouteConstants.subjects,
   ),
   HomeItem(
     title: "Class Rooms",

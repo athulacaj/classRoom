@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
+import 'package:test_app/features/students/students_screen.dart';
 import 'package:test_app/features/subjects/subject_controller.dart';
 import 'package:test_app/utils/common/widgets/app_bar.dart';
 import 'package:test_app/utils/common/widgets/three_widget_tile.dart';
@@ -27,7 +28,7 @@ class _SubjectScreenState extends State<SubjectScreen> {
             children: [
               const Center(
                 child: Text(
-                  'Students ',
+                  'Subjects',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.black,
@@ -37,22 +38,31 @@ class _SubjectScreenState extends State<SubjectScreen> {
                 ),
               ),
               xlVerticalSpace,
-              Expanded(
-                child: ListView.separated(
-                  itemBuilder: (context, i) {
-                    return ThreeWidgetTile(
-                      title: subJectController.subjects[i].name,
-                      subtitle: subJectController.subjects[i].teacher,
-                      trailing:
-                          Text("age: ${subJectController.subjects[i].credits}"),
-                    );
-                  },
-                  separatorBuilder: (context, i) {
-                    return lgVerticalSpace;
-                  },
-                  itemCount: subJectController.subjects.length,
-                ),
-              )
+              if (subJectController.isLoading)
+                const GoupTileShimmer()
+              else
+                Expanded(
+                  child: ListView.separated(
+                    itemBuilder: (context, i) {
+                      return ThreeWidgetTile(
+                        title: subJectController.subjects[i].name,
+                        subtitle: subJectController.subjects[i].teacher,
+                        trailing: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(subJectController.subjects[i].credits
+                                .toString()),
+                            const Text("Credit"),
+                          ],
+                        ),
+                      );
+                    },
+                    separatorBuilder: (context, i) {
+                      return lgVerticalSpace;
+                    },
+                    itemCount: subJectController.subjects.length,
+                  ),
+                )
             ],
           ),
         ),

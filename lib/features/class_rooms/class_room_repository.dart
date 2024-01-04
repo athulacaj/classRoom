@@ -5,7 +5,7 @@ class ClassRoomRepostitory {
   ClassRoomRepostitory({required this.apiHelper});
   final ApiHelper apiHelper;
   Future<List<ClassRoomModel>> getClassrooms() async {
-    final response = await apiHelper.getStudents();
+    final response = await apiHelper.getClassrooms();
     if (response != null && response.statusCode == 200) {
       final List<ClassRoomModel> students =
           ClassRoomModel.fromJsonList(response.data["classrooms"]);

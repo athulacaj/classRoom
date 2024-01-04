@@ -8,8 +8,10 @@ class SubJectController with ChangeNotifier {
   }
   final SubjectRepostitory subjectRepostitory;
   final List<SubjectModel> subjects = [];
+  bool isLoading = true;
   void getSubjects() async {
     subjects.addAll(await subjectRepostitory.getSubjects());
+    isLoading = false;
     notifyListeners();
   }
 }

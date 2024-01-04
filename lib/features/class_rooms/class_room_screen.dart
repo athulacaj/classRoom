@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:test_app/features/class_rooms/class_room_controller.dart';
+import 'package:test_app/features/class_rooms/screens/classroom_detailed_screen.dart';
+import 'package:test_app/features/students/students_screen.dart';
 import 'package:test_app/utils/common/widgets/app_bar.dart';
 import 'package:test_app/utils/common/widgets/three_widget_tile.dart';
 import 'package:test_app/utils/constants/spacing.dart';
@@ -27,7 +29,7 @@ class _ClassRoomScreenState extends State<ClassRoomScreen> {
             children: [
               const Center(
                 child: Text(
-                  'Students ',
+                  'Class Rooms',
                   textAlign: TextAlign.center,
                   style: TextStyle(
                     color: Colors.black,
@@ -37,22 +39,43 @@ class _ClassRoomScreenState extends State<ClassRoomScreen> {
                 ),
               ),
               xlVerticalSpace,
-              Expanded(
-                child: ListView.separated(
-                  itemBuilder: (context, i) {
-                    return ThreeWidgetTile(
-                      title: classRoomController.classRooms[i].name,
-                      subtitle: classRoomController.classRooms[i].layout,
-                      trailing: Text(
-                          "age: ${classRoomController.classRooms[i].size}"),
-                    );
-                  },
-                  separatorBuilder: (context, i) {
-                    return lgVerticalSpace;
-                  },
-                  itemCount: classRoomController.classRooms.length,
-                ),
-              )
+              if (classRoomController.isLoading)
+                const GoupTileShimmer()
+              else
+                Expanded(
+                  child: ListView.separated(
+                    itemBuilder: (context, i) {
+                      return ThreeWidgetTile(
+                        title: classRoomController.classRooms[i].name,
+                        subtitle: classRoomController.classRooms[i].layout,
+                        trailing: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Text(
+                              classRoomController.classRooms[i].size.toString(),
+                            ),
+                            const Text("Seats"),
+                          ],
+                        ),
+                        onTap: () => {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => ClassRoomDetailedScreen(
+                                classRoomModel:
+                                    classRoomController.classRooms[i],
+                              ),
+                            ),
+                          )
+                        },
+                      );
+                    },
+                    separatorBuilder: (context, i) {
+                      return lgVerticalSpace;
+                    },
+                    itemCount: classRoomController.classRooms.length,
+                  ),
+                )
             ],
           ),
         ),
