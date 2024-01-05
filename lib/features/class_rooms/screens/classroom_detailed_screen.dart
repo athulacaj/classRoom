@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
-import 'package:test_app/features/class_rooms/class_room_controller.dart';
+import 'package:test_app/features/class_rooms/components/siiting_layout.dart';
 import 'package:test_app/features/class_rooms/model/class_room_model.dart';
 import 'package:test_app/features/class_rooms/screens/class_room_detailed_controller.dart';
 import 'package:test_app/features/subjects/model/subject_model.dart';
@@ -106,11 +106,15 @@ class _ClassRoomDetailedScreenState extends State<ClassRoomDetailedScreen> {
                             TapAbleWidget(
                               onTap: () {
                                 Navigator.of(context).push(MaterialPageRoute(
-                                  builder: (context) => goSubjectPage(
-                                    onClick: (SubjectModel subjectModel) {
-                                      classRoomDetailedController
+                                  builder: (ctx) => goSubjectPage(
+                                    onClick: (SubjectModel subjectModel) async {
+                                      Navigator.of(ctx).pop();
+                                      await classRoomDetailedController
                                           .addSubjectToClassRoom(subjectModel);
-                                      Navigator.of(context).pop();
+                                      if (context.mounted) {
+                                        showSuccessSnackbar(
+                                            context, "Subject Updated");
+                                      }
                                     },
                                   ),
                                 ));
@@ -155,97 +159,17 @@ class _ClassRoomDetailedScreenState extends State<ClassRoomDetailedScreen> {
   }
 }
 
-class ConferenceSittingLayout extends StatelessWidget {
-  const ConferenceSittingLayout({
-    super.key,
-    required this.leftCount,
-    required this.rightCount,
-  });
+showSuccessSnackbar(context, msg) {
+  final snackBar = SnackBar(
+    backgroundColor: Colors.green,
+    content: Text(msg, style: const TextStyle(color: Colors.white)),
+    // action: SnackBarAction(
+    //   label: 'Undo',
+    //   onPressed: () {
+    //     // Some code to undo the change.
+    //   },
+    // ),
+  );
 
-  final int leftCount;
-  final int rightCount;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Padding(
-          padding: EdgeInsets.only(top: 20.h),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              for (var i = 0; i < leftCount; i++)
-                Padding(
-                  padding: EdgeInsets.only(bottom: 20.h),
-                  child: Image.asset(
-                    CustomIcons.sitingRight,
-                    width: 24.w,
-                    height: 24.w,
-                  ),
-                ),
-            ],
-          ),
-        ),
-        lgHorizontalSpace,
-        Container(
-          width: 142.w,
-          height: (24.h * rightCount) + 260.h,
-          decoration: const BoxDecoration(color: Color(0xFFD9D9D9)),
-        ),
-        lgHorizontalSpace,
-        Padding(
-          padding: EdgeInsets.only(top: 20.h),
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              for (var i = 0; i < rightCount; i++)
-                Padding(
-                  padding: EdgeInsets.only(bottom: 20.h),
-                  child: Image.asset(
-                    CustomIcons.sittingLeft,
-                    width: 24.w,
-                    height: 24.w,
-                  ),
-                ),
-            ],
-          ),
-        ),
-      ],
-    );
-  }
-}
-
-class ClassRoomSittingLayout extends StatelessWidget {
-  const ClassRoomSittingLayout({
-    super.key,
-    required this.classRoomModel,
-  });
-
-  final ClassRoomModel classRoomModel;
-
-  @override
-  Widget build(BuildContext context) {
-    return Wrap(
-      spacing: 13.w,
-      children: [
-        for (var i = 0; i < classRoomModel.size; i++)
-          Container(
-            width: 67.w,
-            height: 67.w,
-            margin: EdgeInsets.only(bottom: 13.w),
-            decoration: const ShapeDecoration(
-              shape: RoundedRectangleBorder(side: BorderSide(width: 1)),
-            ),
-            child: Image.asset(
-              CustomIcons.sitingRight,
-              width: 24.w,
-              height: 24.w,
-            ),
-          ),
-      ],
-    );
-  }
+  ScaffoldMessenger.of(context).showSnackBar(snackBar);
 }

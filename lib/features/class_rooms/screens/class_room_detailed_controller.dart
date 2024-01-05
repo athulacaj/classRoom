@@ -31,7 +31,7 @@ class ClassRoomDetailedController with ChangeNotifier {
     notifyListeners();
   }
 
-  void updateSubject(int subjectId) async {
+  Future<void> updateSubject(int subjectId) async {
     isSubjectLoading = true;
     notifyListeners();
     final success = await classRoomRepostitory.updateSubject(
@@ -45,7 +45,7 @@ class ClassRoomDetailedController with ChangeNotifier {
     notifyListeners();
   }
 
-  void addSubjectToClassRoom(SubjectModel subjectModel) async {
-    updateSubject(subjectModel.id);
+  Future<void> addSubjectToClassRoom(SubjectModel subjectModel) async {
+    await updateSubject(subjectModel.id);
   }
 }
