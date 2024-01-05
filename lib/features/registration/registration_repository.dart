@@ -16,10 +16,11 @@ class RegistrationRepostitory {
     }
   }
 
-  Future<bool> postRegistrations(RegistrationModel registrationModel) async {
+  Future<RegistrationModel> postRegistrations(
+      RegistrationModel registrationModel) async {
     final response = await apiHelper.postRegistrations(registrationModel);
     if (response != null && response.statusCode == 200) {
-      return true;
+      return RegistrationModel.fromJson(response.data["registration"]);
     } else {
       throw Exception("Error");
     }

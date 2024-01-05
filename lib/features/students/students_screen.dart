@@ -4,13 +4,15 @@ import 'package:provider/provider.dart';
 import 'package:test_app/features/students/model/student_model.dart';
 import 'package:test_app/features/students/students_controller.dart';
 import 'package:test_app/utils/common/widgets/app_bar.dart';
-import 'package:test_app/utils/common/widgets/shimmer_container.dart';
+import 'package:test_app/utils/common/widgets/goup_shimmer_loading.dart';
+import 'package:test_app/utils/common/widgets/individual_item_view.dart';
 import 'package:test_app/utils/common/widgets/three_widget_tile.dart';
 import 'package:test_app/utils/constants/spacing.dart';
 import 'package:test_app/utils/constants/ui_constants.dart';
 
 class StudentScreen extends StatefulWidget {
-  const StudentScreen({super.key});
+  const StudentScreen({super.key, this.onClick});
+  final Function? onClick;
 
   @override
   State<StudentScreen> createState() => _StudentScreenState();
@@ -48,7 +50,24 @@ class _StudentScreenState extends State<StudentScreen> {
                 Expanded(
                   child: ListView.separated(
                     itemBuilder: (context, i) {
+                      StudentModel studentModel = studentController.students[i];
                       return ThreeWidgetTile(
+                        onTap: () {
+                          if (widget.onClick != null) {
+                            widget.onClick!(studentModel);
+                          } else {
+                            showBottomSheet(
+                              enableDrag: true,
+                              context: context,
+                              builder: (context) => IndividualItemView(
+                                title: "Student Details",
+                                subTitle: studentModel.name,
+                                thirdTitle: "Age: ${studentModel.age}",
+                                endTitle: studentModel.email,
+                              ),
+                            );
+                          }
+                        },
                         title: studentController.students[i].name,
                         subtitle: studentController.students[i].email,
                         trailing:
@@ -66,30 +85,5 @@ class _StudentScreenState extends State<StudentScreen> {
         ),
       );
     });
-  }
-}
-
-class GoupTileShimmer extends StatelessWidget {
-  const GoupTileShimmer({
-    super.key,
-    this.count = 7,
-  });
-  final int count;
-
-  @override
-  Widget build(BuildContext context) {
-    final Size size = MediaQuery.of(context).size;
-
-    return Expanded(
-      child: ListView.separated(
-        itemBuilder: (context, i) {
-          return ShimmerContainer(width: size.width, height: 66.h);
-        },
-        separatorBuilder: (context, i) {
-          return lgVerticalSpace;
-        },
-        itemCount: count,
-      ),
-    );
   }
 }

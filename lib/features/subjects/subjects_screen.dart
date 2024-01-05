@@ -2,8 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:provider/provider.dart';
 import 'package:test_app/features/students/students_screen.dart';
+import 'package:test_app/features/subjects/model/subject_model.dart';
 import 'package:test_app/features/subjects/subject_controller.dart';
 import 'package:test_app/utils/common/widgets/app_bar.dart';
+import 'package:test_app/utils/common/widgets/goup_shimmer_loading.dart';
+import 'package:test_app/utils/common/widgets/individual_item_view.dart';
 import 'package:test_app/utils/common/widgets/three_widget_tile.dart';
 import 'package:test_app/utils/constants/spacing.dart';
 import 'package:test_app/utils/constants/ui_constants.dart';
@@ -45,11 +48,22 @@ class _SubjectScreenState extends State<SubjectScreen> {
                 Expanded(
                   child: ListView.separated(
                     itemBuilder: (context, i) {
+                      SubjectModel subjectModel = subJectController.subjects[i];
                       return ThreeWidgetTile(
                         onTap: () {
                           if (widget.onClick != null) {
-                            print(":${subJectController.subjects[i].name}");
-                            widget.onClick!(subJectController.subjects[i]);
+                            widget.onClick!(subjectModel);
+                          } else {
+                            showBottomSheet(
+                              enableDrag: true,
+                              context: context,
+                              builder: (context) => IndividualItemView(
+                                title: "Subject Details",
+                                subTitle: subjectModel.name,
+                                thirdTitle: subjectModel.teacher,
+                                endTitle: "Credit: ${subjectModel.credits}",
+                              ),
+                            );
                           }
                         },
                         title: subJectController.subjects[i].name,

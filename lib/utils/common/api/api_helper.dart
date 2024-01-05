@@ -34,6 +34,15 @@ class ApiHelper {
     return response;
   }
 
+  Future<Response?> getStudentById(int id) async {
+    final response = await apiOperation.getOperation(
+        "${Config.baseUrl}${ApiEndPoints.students}/$id",
+        parameter: {
+          'api_key': Config.apiKey,
+        });
+    return response;
+  }
+
   Future<Response?> getClassrooms() async {
     final response = await apiOperation.getOperation(
         "${Config.baseUrl}${ApiEndPoints.classrooms}",
@@ -75,20 +84,33 @@ class ApiHelper {
 
   Future<Response?> postRegistrations(
       RegistrationModel registrationModel) async {
-    final response = await apiOperation.postOperation(
-        "${Config.baseUrl}${ApiEndPoints.registration}",
+    final response = await apiOperation.postUrlEncodedRequest(
+        "${Config.baseUrl}${ApiEndPoints.registration}/",
+        patchBody: {
+          "student": registrationModel.student,
+          "subject": registrationModel.subject,
+        },
         parameter: {
           'api_key': Config.apiKey,
-        },
-        postBody: {
-          "registration": {
-            "id": registrationModel.id,
-            "student": registrationModel.student,
-            "subject": registrationModel.subject,
-          }
         });
     return response;
   }
+  // Future<Response?> postRegistrations(
+  //     RegistrationModel registrationModel) async {
+  //   final response = await apiOperation.postOperation(
+  //       "${Config.baseUrl}${ApiEndPoints.registration}",
+  //       parameter: {
+  //         'api_key': Config.apiKey,
+  //       },
+  //       postBody: {
+  //         "registration": {
+  //           "id": registrationModel.id,
+  //           "student": registrationModel.student,
+  //           "subject": registrationModel.subject,
+  //         }
+  //       });
+  //   return response;
+  // }
 
   Future<Response?> deleteRegistrationById(int id) async {
     final response = await apiOperation.deleteOperation(

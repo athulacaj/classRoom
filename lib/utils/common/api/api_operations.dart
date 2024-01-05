@@ -91,6 +91,24 @@ class ApiOperation {
     return getResponse;
   }
 
+  Future<Response?> postUrlEncodedRequest(String path,
+      {required Map<String, dynamic> patchBody,
+      Map<String, dynamic>? parameter}) async {
+    var headers = {'Content-Type': 'application/x-www-form-urlencoded'};
+    var dio = Dio();
+    var response = await dio.request(
+      path,
+      options: Options(
+        method: 'POST',
+        headers: headers,
+      ),
+      queryParameters: parameter ?? {},
+      data: patchBody,
+    );
+
+    return response;
+  }
+
   Future<Response?> patchUrlEncodedRequest(String path,
       {required Map patchBody, Map<String, dynamic>? parameter}) async {
     var headers = {'Content-Type': 'application/x-www-form-urlencoded'};

@@ -14,4 +14,14 @@ class StudentRepostitory {
       throw Exception("Error");
     }
   }
+
+  Future<StudentModel> getSutentById(int id) async {
+    final response = await apiHelper.getStudentById(id);
+    if (response != null && response.statusCode == 200) {
+      final StudentModel subject = StudentModel.fromJson(response.data);
+      return subject;
+    } else {
+      throw Exception("Error");
+    }
+  }
 }

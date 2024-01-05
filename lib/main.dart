@@ -26,13 +26,15 @@ class MyApp extends StatelessWidget {
             primary: Colors.deepPurple,
             secondary: Colors.deepPurpleAccent,
           ),
+          scaffoldBackgroundColor: Colors.white, // Set your desired color here
           appBarTheme: const AppBarTheme(
             backgroundColor: Colors.white,
             titleTextStyle: TextStyle(
               color: Colors.black,
               fontSize: 20,
               fontWeight: FontWeight.bold,
-            ),
+            ), // Set your desired color here
+
             systemOverlayStyle: SystemUiOverlayStyle(
               statusBarColor: Colors.white,
               statusBarIconBrightness: Brightness.dark,

@@ -38,12 +38,7 @@ final GoRouter goRoutes = GoRouter(
     GoRoute(
       path: RouteConstants.students,
       builder: (BuildContext context, GoRouterState state) {
-        return ChangeNotifierProvider<StudentController>(
-            create: (context) => StudentController(
-                    studentRepostitory: StudentRepostitory(
-                  apiHelper: apiHelper,
-                )),
-            child: const StudentScreen());
+        return goStudentPage();
       },
     ),
     GoRoute(
@@ -89,6 +84,12 @@ final GoRouter goRoutes = GoRouter(
             registrationRepostitory: RegistrationRepostitory(
               apiHelper: apiHelper,
             ),
+            studentRepostitory: StudentRepostitory(
+              apiHelper: apiHelper,
+            ),
+            subjectRepostitory: SubjectRepostitory(
+              apiHelper: apiHelper,
+            ),
           ),
           child: const RegistrationScreen(),
         );
@@ -105,6 +106,19 @@ Widget goSubjectPage({Function? onClick}) {
       ),
     ),
     child: SubjectScreen(
+      onClick: onClick,
+    ),
+  );
+}
+
+Widget goStudentPage({Function? onClick}) {
+  return ChangeNotifierProvider<StudentController>(
+    create: (context) => StudentController(
+      studentRepostitory: StudentRepostitory(
+        apiHelper: apiHelper,
+      ),
+    ),
+    child: StudentScreen(
       onClick: onClick,
     ),
   );
